@@ -1,0 +1,46 @@
+package com.example.x13039xx.mediarecorder;
+
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+
+
+public class MediaRecorder extends ActionBarActivity {
+        MediaRecorder recorder;
+
+        public void onClick(View v) {
+                // Activity implements OnClickListener
+
+                switch (v.getId()) {
+
+                        case R.id.Start:    //スタートボタン押下
+
+                                recorder = new MediaRecorder();
+                                recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                                recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                                recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+
+                                //保存先
+                                String filePath = "/Users/x13039xx/Meeting/record.wav";
+                                recorder.setOutputFile(filePath);
+
+                                //録音準備＆録音開始
+                                try {
+                                        recorder.prepare();
+                                } catch (Exception e) {
+                                        e.printStackTrace();
+                                }
+                                recorder.start();   //録音開始
+                                break;
+
+
+                        case R.id.Stop:         //ストップボタン押下
+                                recorder.stop();
+                                recorder.reset();   //オブジェクトのリセット
+                                //release()前であればsetAudioSourceメソッドを呼び出すことで再利用可能
+                                recorder.release(); //Recorderオブジェクトの解放
+                                break;
+                }
+        }
+}
